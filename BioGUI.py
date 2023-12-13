@@ -32,7 +32,7 @@ def KMP(text, pattern):
         result_label.config(text=f"{KMPSearch(text, pattern)}")
     else:
         result_label.config(text="Please enter both Text and Pattern.")
-
+        
 # Create the main application window
 app = tk.Tk()
 app.title("Bioinformatics GUI")
@@ -65,7 +65,7 @@ BadCharacter_btn = tk.Button(app, text="Bad Character Search", command=lambda: b
 GoodSuffix_btn = tk.Button(app, text="Good Suffix Search", command=lambda: good_suffix(text_entry.get(), sequence_entry.get()), relief=tk.FLAT)
 indexing_btn = tk.Button(app, text="Indexing Search", command=lambda: indexing(text_entry.get(), sequence_entry.get()), relief=tk.FLAT)
 KMP_btn = tk.Button(app, text="KMP Search", command=lambda: KMP(text_entry.get(), sequence_entry.get()), relief=tk.FLAT)
-reversing_btn = tk.Button(app, text="Reverse", command=lambda: reverse(text_entry.get(), sequence_entry.get()), relief=tk.FLAT)
+reversing_btn = tk.Button(app, text="Reverse", command=lambda: reverse(text_entry.get()), relief=tk.FLAT)
 verify_btn = tk.Button(app, text="Verify", command=lambda: verify(text_entry.get()), relief=tk.FLAT)
 
 # Create Label widget for displaying results
