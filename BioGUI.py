@@ -7,9 +7,10 @@ from match import match
 from translation import Translation_Table
 from tkinter import filedialog
 
+
 def bad_character(text, pattern):
     if text and pattern:  # Check if both fields are non-empty
-        result_label.config(text=f"{Bad_character_rule.search(text, pattern)} alighments: {Bad_character_rule.count}")
+        result_label.config(text=f"Match at {Bad_character_rule.search(text, pattern)[0]}, alighments: {Bad_character_rule.search(text, pattern)[1]}")
     else:
         result_label.config(text="Please enter both Text and Pattern.")
 
