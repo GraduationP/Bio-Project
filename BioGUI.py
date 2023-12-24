@@ -6,11 +6,12 @@ from KMP_algorithm import KMPSearch
 from match import match
 from translation import Translation_Table
 from tkinter import filedialog
-
+from suffix import suffix
+from Indexing import IndexSorted, result
 
 def bad_character(text, pattern):
     if text and pattern:  # Check if both fields are non-empty
-        result_label.config(text=f"Match at {Bad_character_rule.search(text, pattern)[0]}, alighments: {Bad_character_rule.search(text, pattern)[1]}")
+        result_label.config(text=f"Match at {Bad_character_rule.Badchars(text, pattern)[0]}, alighments: {Bad_character_rule.Badchars(text, pattern)[1]}")
     else:
         result_label.config(text="Please enter both Text and Pattern.")
 
@@ -20,11 +21,11 @@ def good_suffix(text, pattern):
     else:
         result_label.config(text="Please enter both Text and Pattern.")
         
-def indexing(pattern, text):
-    if text and pattern:  # Check if both fields are non-empty
-        result_label.config(text=f"{Indexing.search(text, pattern)}")
+def indexing(text, pattern, ln):
+    if pattern and ln:  # Check if both fields are non-empty
+        result_label.config(text=f"{result(pattern, ln)}")
     else:
-        result_label.config(text="Please enter both Text and Pattern.")
+        result_label.config(text="Please enter both Text and Length.")
         
 def reverse(text):
     result_label.config(text=f"{rev_comp_st(text)}")
@@ -32,9 +33,12 @@ def reverse(text):
 def verify(text):
     result_label.config(text=f"{Verify_sequence.verify(text)}")
     
+def Suffix(text):
+    result_label.config(text=f"Suffix: {suffix(text)}")
+    
 def matchS(pattern, text):
     if text and pattern:
-        result_label.config(text=f"{match(pattern, text)}")
+        result_label.config(text=f"{match(pattern, text)[0]}, alighment {match(pattern, text)[1]}")
     else:
         result_label.config(text="Please enter both Text and Pattern.")
 
@@ -80,10 +84,12 @@ title_label.pack(side=tk.TOP, pady=20)
 # Create labels for text and pattern
 text_label = tk.Label(app, text="Enter Text", font=("Arial", 12), fg='black', bg='#F0F0F0')
 pattern_label = tk.Label(app, text="Enter Pattern", font=("Arial", 12), fg='black', bg='#F0F0F0')
+ln_label = tk.Label(app, text="Enter Length if indexing", font=("Arial", 12), fg='black', bg='#F0F0F0')
 
 # Create input fields for sequences and text
 text_entry = tk.Entry(app, width=30)
 sequence_entry = tk.Entry(app, width=30)
+ln_entry = tk.Entry(app, width=30)
 
 # Create two frames for buttons
 frame_top = tk.Frame(app, bg='#F0F0F0')
@@ -93,10 +99,11 @@ frame_bottom = tk.Frame(app, bg='#F0F0F0')
 # Create buttons for algorithms with improved styling
 BadCharacter_btn = ttk.Button(frame_top, text="Bad Character Search", command=lambda: bad_character(text_entry.get(), sequence_entry.get()))
 GoodSuffix_btn = ttk.Button(frame_top, text="Good Suffix Search", command=lambda: good_suffix(text_entry.get(), sequence_entry.get()))
-Indexing_btn = ttk.Button(frame_top, text="Indexing Search", command=lambda: indexing(text_entry.get(), sequence_entry.get()))
+Indexing_btn = ttk.Button(frame_top, text="Indexing Search", command=lambda: indexing(text_entry.get(), sequence_entry.get(), ln_entry.get()))
 Reverse_btn = ttk.Button(frame_top, text="Reverse", command=lambda: reverse(text_entry.get()))
 Verify_btn = ttk.Button(frame_top, text="Verify", command=lambda: verify(text_entry.get()))
-Translate_btn = ttk.Button(frame_top, text="Translation", command=lambda: translate(text_entry.get()))
+Suffix_btn = ttk.Button(frame_top, text="Suffix", command=lambda: Suffix(text_entry.get()))
+Translate_btn = ttk.Button(frame_bottom, text="Translation", command=lambda: translate(text_entry.get()))
 Match_btn = ttk.Button(frame_bottom, text="Match", command=lambda: matchS(text_entry.get(), sequence_entry.get()))
 KMP_btn = ttk.Button(frame_bottom, text="KMP Search", command=lambda: KMP(text_entry.get(), sequence_entry.get()))
 UploadFasta_btn = ttk.Button(frame_bottom, text="Upload Fasta", command=upload_fasta)
@@ -112,6 +119,10 @@ text_entry.pack(pady=5)
 pattern_label.pack(pady=5)
 sequence_entry.pack(pady=5)
 
+ln_label.pack(pady=5)
+ln_entry.pack(pady=5)
+
+
 # Pack buttons in frames
 BadCharacter_btn.pack(side=tk.LEFT, pady=10, padx=10)
 GoodSuffix_btn.pack(side=tk.LEFT, pady=10, padx=10)
@@ -122,6 +133,7 @@ Match_btn.pack(side=tk.LEFT, pady=10, padx=10)
 KMP_btn.pack(side=tk.LEFT, pady=10, padx=10)
 Translate_btn.pack(side=tk.LEFT, pady=10, padx=10)
 UploadFasta_btn.pack(side=tk.LEFT, pady=10, padx=10)
+Suffix_btn.pack(side=tk.LEFT, pady=10, padx=10)
 
 # Pack frames
 frame_top.pack(side=tk.TOP)

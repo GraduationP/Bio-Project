@@ -1,5 +1,4 @@
-# Python3 program for KMP Algorithm
-
+# KMP Algorithm
 def KMPSearch(pat, txt):
 	M = len(pat)
 	N = len(txt)
@@ -46,22 +45,8 @@ def computeLPSArray(pat, M, lps):
 			lps[i] = len
 			i += 1
 		else:
-			# This is tricky. Consider the example.
-			# AAACAAAA and i = 7. The idea is similar
-			# to search step.
 			if len != 0:
 				len = lps[len-1]
-
-				# Also, note that we do not increment i here
 			else:
 				lps[i] = 0
 				i += 1
-
-
-# Driver code
-if __name__ == '__main__':
-	txt = "ABABDABACDABABCABAB"
-	pat = "ABABCABAB"
-	KMPSearch(pat, txt)
-
-# This code is contributed by Ahmed Samir

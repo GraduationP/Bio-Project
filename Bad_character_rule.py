@@ -1,30 +1,33 @@
-NO_OF_CHARS = 256
+import numpy as np
 
-def badCharHeuristic(string, size):
-    badChar = [-1] * NO_OF_CHARS
-    for i in range(size):
-        badChar[ord(string[i])] = i
-    return badChar
-
-def search(txt, pat):
-    m = len(pat)
-    n = len(txt)
-    badChar = badCharHeuristic(pat, m)
-    shifts = 1  # Count of alignments/skips
-    s = 0
-
-    result = []
-
-    while s <= n - m:
-        j = m - 1
-
-        while j >= 0 and pat[j] == txt[s + j]:
-            j -= 1
-
-        if j < 0:
-            result.append(s)
-            s += (m - badChar[ord(txt[s + m])] if s + m < n else 1)
+def Badchars(seq,sub_seq):
+    result = ''
+    global count
+    count = 0
+    table=np.zeros([4,len(sub_seq)])     
+    row=["C","G","A","T"]
+    for i in range (4):
+        num=-1
+        for j in range (len(sub_seq)):
+            if row[i]==sub_seq[j]:
+                table[i,j]=-1
+                num=-1
+            else:
+                num+=1
+                table[i,j]=num
+    x=-1
+    i=0
+    while(i<len(seq)-len(sub_seq)+1):
+        if sub_seq==seq[i:i+len(sub_seq)]:
+            result = result + str(i) + ', '
+            x=i
         else:
-            shifts += 1
-            s += max(1, j - badChar[ord(txt[s + j])])
-    return result, shifts
+            for j in range(i+len(sub_seq)-1,i-1,-1):
+                if seq[j] != sub_seq[int(j-i)]:
+                    k=row.index(seq[j])
+                    L = int(table[k,j-i])
+                    i+= L
+                    count += L
+                    break
+        i=int(i+1)
+    return result, count
