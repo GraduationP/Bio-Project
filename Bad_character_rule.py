@@ -1,14 +1,8 @@
-# Python3 Program for Bad Character Heuristic
-# of Boyer Moore String Matching Algorithm
+# Bad Character Heuristic
 
 NO_OF_CHARS = 256
 
 def badCharHeuristic(string, size):
-	'''
-	The preprocessing function for
-	Boyer Moore's bad character heuristic
-	'''
-
 	# Initialize all occurrence as -1
 	badChar = [-1]*NO_OF_CHARS
 
@@ -20,13 +14,13 @@ def badCharHeuristic(string, size):
 	return badChar
 
 def search(txt, pat):
-	'''
-	A pattern searching function that uses Bad Character
-	Heuristic of Boyer Moore Algorithm
-	'''
 	m = len(pat)
 	n = len(txt)
 	Y = 'Search result: '
+	global count
+	count = ''
+	global cnt
+	cnt = [0]
 	# create the bad character list by calling
 	# the preprocessing function badCharHeuristic()
 	# for given pattern
@@ -36,7 +30,6 @@ def search(txt, pat):
 	s = 0
 	while(s <= n-m):
 		j = m-1
-
 		# Keep reducing index j of pattern while
 		# characters of pattern and text are matching
 		# at this shift s
@@ -46,36 +39,12 @@ def search(txt, pat):
 		# If the pattern is present at current shift,
 		# then index j will become -1 after the above loop
 		if j<0:
-			Y = Y + str(s) + ' '
-
-			''' 
-				Shift the pattern so that the next character in text
-					aligns with the last occurrence of it in pattern.
-				The condition s+m < n is necessary for the case when
-				pattern occurs at the end of text
-			'''
+			Y = Y + str(s) + ', '
+			cnt.append(s)
+			count = count + str(s-cnt[-2]-1) + ', '
 			s += (m-badChar[ord(txt[s+m])] if s+m<n else 1)
 		else:
-			'''
-			Shift the pattern so that the bad character in text
-			aligns with the last occurrence of it in pattern. The
-			max function is used to make sure that we get a positive
-			shift. We may get a negative shift if the last occurrence
-			of bad character in pattern is on the right side of the
-			current character.
-			'''
 			s += max(1, j-badChar[ord(txt[s+j])])
+		s2 = s
+        
 	return Y
-
-
-# Driver program to test above function
-def main():
-	txt = "ABAAABCD"
-	pat = "ABC"
-	search(txt, pat)
-
-if __name__ == '__main__':
-	main()
-
-# This code is contributed by Omnia Fathy
-
